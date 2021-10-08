@@ -13,9 +13,5 @@
     "axios": "^0.22.0",
     "express": "^4.17.1",
     "lit": "^2.0.2"
-  },
-  "devDependencies": {
-    "@snowpack/plugin-webpack": "^3.0.0",
-    "javascript": "^1.0.0"
   }
 }

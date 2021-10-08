@@ -74,11 +74,18 @@ export class fetchWait extends LitElement {
   }
   errorTemplate() {
     return html`<h1>Error</h1>
-      <p>${this.error}</p>`;
+      <p style="color:red">${this.error}</p>`;
   }
   successTemplate() {
     const template = () => html`
       <h1>Success</h1>
+      <a href="${this.url}">
+        <img
+        alt="${this.login}"
+        style="width:100px"
+        src="${this.data.avatar_url}"
+        />
+      </a>
       <pre>${JSON.stringify(this.data, null, 2)}</pre>
     `;
     return template(this.data);
@@ -86,7 +93,7 @@ export class fetchWait extends LitElement {
   render() {
     return html`${this.data === null
       ? this.waitingTemplate()
-      : this.data === 500
+      : this.error
       ? this.errorTemplate()
       : this.successTemplate()}`;
   }

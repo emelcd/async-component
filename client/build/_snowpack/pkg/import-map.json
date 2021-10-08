@@ -1,8 +1,0 @@
-{
-  "imports": {
-    "@lit/reactive-element": "./@lit/reactive-element.js",
-    "lit": "./lit.js",
-    "lit-element/lit-element.js": "./lit-element/lit-element.js",
-    "lit-html": "./lit-html.js"
-  }
-}
