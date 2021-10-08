@@ -1,4 +1,4 @@
-import { LitElement, css, html } from "lit";
+import { LitElement, css, html } from "./_snowpack/pkg/lit.js";
 
 class Fetcher {
   constructor(url, options = {}) {
@@ -32,6 +32,10 @@ class Fetcher {
   }
 }
 
+const waiting = html` <h1>Waiting</h1> `;
+const error = html` <h1>Error</h1> `;
+const success = (d) => html` <pre>${JSON.stringify(d, null, 2)}</pre> `;
+
 export class fetchWait extends LitElement {
   static get properties() {
     return {
@@ -46,9 +50,6 @@ export class fetchWait extends LitElement {
       :host {
         font-family: "Courier New", Courier, monospaces;
       }
-      h1 {
-        font-size: 1.5em;
-      }
     `;
   }
   constructor() {
@@ -57,7 +58,6 @@ export class fetchWait extends LitElement {
     this.url = null;
     this.retries = 10;
     this.delay = 100;
-    this.error = null;
   }
   async connectedCallback() {
     super.connectedCallback();
@@ -65,30 +65,15 @@ export class fetchWait extends LitElement {
     try {
       this.data = await fetcher.retryUntilSuccess(this.retries, this.delay);
     } catch (e) {
-      this.error = e.message;
       this.data = 500;
     }
   }
-  waitingTemplate() {
-    return html`<h1>Loading...</h1>`;
-  }
-  errorTemplate() {
-    return html`<h1>Error</h1>
-      <p>${this.error}</p>`;
-  }
-  successTemplate() {
-    const template = () => html`
-      <h1>Success</h1>
-      <pre>${JSON.stringify(this.data, null, 2)}</pre>
-    `;
-    return template(this.data);
-  }
   render() {
     return html`${this.data === null
-      ? this.waitingTemplate()
+      ? waiting
       : this.data === 500
-      ? this.errorTemplate()
-      : this.successTemplate()}`;
+      ? error
+      : success(this.data)}`;
   }
 }
 
